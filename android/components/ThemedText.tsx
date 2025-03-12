@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
-    lineHeight: 32,
+    lineHeight: 52,
+    fontFamily: 'ButterChicken',
   },
   subtitle: {
     fontSize: 20,
