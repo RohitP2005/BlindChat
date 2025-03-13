@@ -40,3 +40,30 @@ yarn-error.*
 
 
 app-example
+
+# Ignore all virtual environments
+venv/
+*/venv/
+**/venv/
+
+# Common Python ignores
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment directories with different names
+env/
+*/env/
+**/env/
+
+# If using Conda
+conda_env/
+*/conda_env/
+**/conda_env/
+
+# If using Poetry
+.venv/
+*/.venv/
+**/.venv/
+
