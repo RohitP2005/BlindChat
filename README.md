@@ -19,5 +19,3 @@ Blind Chat is a secure, anonymous chat platform with an **Android frontend (Reac
 
 ---
 
-
-
