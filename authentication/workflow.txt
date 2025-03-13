@@ -1,0 +1,23 @@
+UI Flow for Authentication
+Signup Screen (Register)
+
+User enters email and password.
+Clicks "Sign Up" → Sends a request to the /signup/ API.
+User gets an OTP via email.
+OTP Verification Screen
+
+User enters the OTP.
+Clicks "Verify OTP" → Sends request to /verify-otp/ API.
+If OTP is correct, the user is added to the database and logged in.
+Login Screen
+
+User enters email & password.
+Clicks "Login" → Sends request to /login/ API.
+If successful, the user receives a token.
+Store token using AsyncStorage (React Native storage).
+Redirect to the Home Screen.
+Home Screen (Protected)
+
+Fetch user data using the token.
+Display user details.
+Provide a "Logout" button → Clears the token & redirects to login.
