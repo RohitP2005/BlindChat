@@ -1,0 +1,252 @@
+# Authentication API Documentation
+
+## Overview
+This document provides detailed information about the authentication API, including user registration, OTP verification, login, and token-based authentication.
+
+## Base URL
+```
+http://127.0.0.1:8000/
+```
+
+## Endpoints
+
+### 1️⃣ User Signup (Register)
+**Endpoint:**
+```
+POST /signup/
+```
+**Description:**
+- Registers a new user but does **not** save them in the database immediately.
+- Sends an OTP to the user's email for verification.
+
+**Request Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "username": "user123",
+  "password": "securepassword"
+}
+```
+
+**Response (Success):**
+```json
+{
+  "message": "OTP sent successfully"
+}
+```
+
+**Response (Failure - Email already registered):**
+```json
+{
+  "message": "Email already registered"
+}
+```
+
+---
+
+### 2️⃣ Verify OTP (Complete Registration)
+**Endpoint:**
+```
+POST /verify-otp/
+```
+**Description:**
+- Verifies the OTP sent to the user's email.
+- If the OTP is correct, the user is **added to the database**.
+
+**Request Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "otp": "123456"
+}
+```
+
+**Response (Success):**
+```json
+{
+  "message": "Email verified successfully. User registered."
+}
+```
+
+**Response (Failure - Invalid OTP):**
+```json
+{
+  "message": "Invalid or expired OTP"
+}
+```
+
+---
+
+### 3️⃣ User Login
+**Endpoint:**
+```
+POST /login/
+```
+**Description:**
+- Authenticates a user and returns an authentication token.
+
+**Request Headers:**
+```
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "username": "user123",
+  "password": "securepassword"
+}
+```
+
+**Response (Success):**
+```json
+{
+  "token": "your_auth_token_here",
+  "user": {
+    "id": 1,
+    "username": "user123",
+    "email": "user@example.com"
+  }
+}
+```
+
+**Response (Failure - Invalid Credentials):**
+```json
+{
+  "details": "not found"
+}
+```
+
+---
+
+### 4️⃣ Test Token Authentication
+**Endpoint:**
+```
+GET /test-token/
+```
+**Description:**
+- Used to verify if a user is authenticated with a valid token.
+- Requires an authentication token in the request headers.
+
+**Request Headers:**
+```
+Authorization: Token your_auth_token_here
+```
+
+**Response (Success):**
+```json
+{
+  "message": "Passed for user@example.com"
+}
+```
+
+**Response (Failure - Invalid or Missing Token):**
+```json
+{
+  "detail": "Authentication credentials were not provided."
+}
+```
+
+---
+
+## Error Handling
+| **Error Code** | **Message** | **Description** |
+|--------------|------------|----------------|
+| 400 | Invalid request | The request body is missing required fields. |
+| 401 | Unauthorized | The user is not authenticated. |
+| 403 | Forbidden | The user does not have permission to access the resource. |
+| 404 | Not Found | The requested resource does not exist. |
+
+---
+
+## Notes
+- Users must verify their email using OTP before they can log in.
+- The authentication system uses **Token-Based Authentication**.
+- OTP is valid for **5 minutes** after being sent.
+- Ensure SMTP settings are correctly configured to send emails.
+
+---
+
+## Example Testing with `test.rest`
+```rest
+### Signup Request
+POST http://127.0.0.1:8000/signup/
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "username": "user123",
+  "password": "securepassword"
+}
+
+### Verify OTP Request
+POST http://127.0.0.1:8000/verify-otp/
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "otp": "123456"
+}
+
+### Login Request
+POST http://127.0.0.1:8000/login/
+Content-Type: application/json
+
+{
+  "username": "user123",
+  "password": "securepassword"
+}
+
+### Token Test Request
+GET http://127.0.0.1:8000/test-token/
+Authorization: Token your_auth_token_here
+```
+
+---
+
+## How to Run the Django Project
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/your-repo/project.git
+cd project
+```
+
+### 2️⃣ Create a Virtual Environment
+```sh
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+```
+
+### 3️⃣ Install Dependencies
+```sh
+pip install -r requirements.txt
+```
+
+### 4️⃣ Apply Migrations
+```sh
+python manage.py migrate
+```
+
+### 5️⃣ Run the Development Server
+```sh
+python manage.py runserver
+```
+
+### 6️⃣ Testing the API
+- Use the `test.rest` file in VS Code with the **REST Client** extension.
+- Send requests to verify the authentication process.
+
+---
+
+## Contact
+For any issues or enhancements, contact **Jithesh**.
