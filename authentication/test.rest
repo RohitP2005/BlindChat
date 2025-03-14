@@ -1,31 +1,36 @@
-### 1️⃣ Signup (Register & Receive OTP)
+### User Signup
 POST http://127.0.0.1:8000/signup/
 Content-Type: application/json
 
 {
-  "username": "sharran3",
-  "email": "sharran0987@gmail.com",
-  "password": "1234"
+  "email": "tarinisivakumar01022006@gmail.com",
+  "password": "Test@1234",
+  "gender": "male",
+  "preference": "female"
 }
 
-### 2️⃣ Verify OTP (Complete Registration)
+### Verify OTP
 POST http://127.0.0.1:8000/verify-otp/
 Content-Type: application/json
 
 {
-  "email": "sharran0987@gmail.com",
-  "otp": "990142"
+  "email": "tarinisivakumar01022006@gmail.com",
+  "otp": "183014"
 }
 
-### 3️⃣ Login (After Email Verification)
+### User Login
 POST http://127.0.0.1:8000/login/
 Content-Type: application/json
 
 {
-  "username": "sharran3",
-  "password": "1234"
+  "email": "tarinisivakumar01022006@gmail.com",
+  "password": "Test@1234"
 }
 
-### 4️⃣ Test Token Authentication (After Login)
+### Test Token Authentication
 GET http://127.0.0.1:8000/test-token/
-Authorization: Token e0b1ee34687da3f227fae510490208713e768ccb
+Authorization: Token b25704c40b0ea7bfc4e7c2a48cede26bb6b8b3d3
+
+### Delete User
+DELETE http://127.0.0.1:8000/delete-user/
+Authorization: Token 83bc913f8f81166a2e213a6331e83b90d0171c94

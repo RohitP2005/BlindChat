@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'server',
 ]
 
 
@@ -147,4 +148,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'jitheshwarrior007@gmail.com'  # Your email address
 EMAIL_HOST_PASSWORD = 'jcvyamnddlexmngb'  # Use an app password for Gmail
+AUTH_USER_MODEL = 'server.CustomUser'  # Replace 'server' with the actual app name if different
 
