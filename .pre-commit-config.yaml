@@ -1,0 +1,18 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.0 # Latest stable version
+    hooks:
+      - id: ruff
+        args: [--fix]
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.22.0 # Confirmed working version
+    hooks:
+      - id: eslint
+        args: [--fix]
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8 # Confirmed working version
+    hooks:
+      - id: prettier
+        args: [--write]

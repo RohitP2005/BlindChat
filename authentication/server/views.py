@@ -9,7 +9,6 @@ import random
 import json
 from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.models import Token
-from django.http import JsonResponse
 from server.models import CustomUser  # Import CustomUser instead of default User
 
 
@@ -54,7 +53,6 @@ def signup(request):
 
     return Response({"message": "OTP sent successfully. Verify to complete registration."}, status=status.HTTP_200_OK)
 
-import random
 
 # Dictionary of superhero names
 SUPERHERO_NAMES = {

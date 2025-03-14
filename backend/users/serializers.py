@@ -3,10 +3,9 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from .models import User
-from django.contrib.auth import authenticate
 import random
 from datetime import date
 from django.utils.html import strip_tags
@@ -71,10 +70,11 @@ class PasswordResetSerializer(serializers.Serializer):
 
     def validate_email(self, value):
         try:
-            user = User.objects.get(email=value)
+            User.objects.get(email=value)  # Remove `user =`
         except User.DoesNotExist:
             raise serializers.ValidationError("No user is associated with this email address.")
-        return value
+        return value  # Ensure function still returns value
+
 
     def save(self):
         email = self.validated_data['email']

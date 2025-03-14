@@ -34,6 +34,10 @@ export default function GreetingScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  greeting: { fontSize: 24, fontWeight: "bold", textAlign: "center", marginHorizontal: 20 },
+  greeting: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginHorizontal: 20,
+  },
 });
-

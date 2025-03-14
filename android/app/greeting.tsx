@@ -13,7 +13,10 @@ export default function GreetingScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to Blind Chat!</Text>
-      <Button title="Continue" onPress={() => router.replace("/(auth)/login")} />
+      <Button
+        title="Continue"
+        onPress={() => router.replace("/(auth)/login")}
+      />
     </View>
   );
 }
@@ -22,4 +25,3 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", alignItems: "center" },
   text: { fontSize: 20, marginBottom: 20 },
 });
-

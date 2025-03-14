@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { Colors } from "@/constants/Colors"; // Import theme colors
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -57,7 +63,9 @@ export default function OTPVerification() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Verify OTP</Text>
-      <Text style={styles.subtitle}>Enter the 6-digit OTP sent to your email</Text>
+      <Text style={styles.subtitle}>
+        Enter the 6-digit OTP sent to your email
+      </Text>
 
       <TextInput
         label="OTP"
@@ -78,13 +86,19 @@ export default function OTPVerification() {
       {loading ? (
         <ActivityIndicator size="large" color={Colors.primary} />
       ) : (
-        <Button mode="contained" onPress={handleVerifyOTP} style={styles.button}>
+        <Button
+          mode="contained"
+          onPress={handleVerifyOTP}
+          style={styles.button}
+        >
           Verify OTP
         </Button>
       )}
 
       <TouchableOpacity onPress={handleResendOTP} disabled={resendDisabled}>
-        <Text style={[styles.resendText, resendDisabled && styles.resendDisabled]}>
+        <Text
+          style={[styles.resendText, resendDisabled && styles.resendDisabled]}
+        >
           {resendDisabled ? "Wait 30s to resend OTP" : "Resend OTP"}
         </Text>
       </TouchableOpacity>
@@ -141,4 +155,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

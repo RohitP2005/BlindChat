@@ -3,16 +3,15 @@ import { useRouter } from "expo-router";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Colors } from '@/constants/Colors'; // ✅ Fixed case sensitivity issue
-import { useColorScheme } from '@/hooks/useColorScheme';
-
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { Colors } from "@/constants/Colors"; // ✅ Fixed case sensitivity issue
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function LoginScreen() {
-   const router = useRouter();
+  const router = useRouter();
   const colorScheme = useColorScheme();
-  
+
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -59,41 +58,40 @@ export default function LoginScreen() {
     <ThemedView style={styles.container}>
       <ThemedText type="title">Blind Chat</ThemedText>
 
-  <TextInput
-  label="Email or Phone"
-  mode="outlined"
-  value={emailOrPhone}
-  onChangeText={setEmailOrPhone}
-  style={styles.input}
-  outlineColor={Colors.primary}
-  activeOutlineColor={Colors.primary}
-  placeholderTextColor={Colors.primary}
-  theme={{
-    colors: {
-      onSurfaceVariant: Colors.primary, // Removes unfocused label color
-      background: Colors[colorScheme ?? 'light'].background, // Ensures full transparency
-    },
-  }}
-/>
+      <TextInput
+        label="Email or Phone"
+        mode="outlined"
+        value={emailOrPhone}
+        onChangeText={setEmailOrPhone}
+        style={styles.input}
+        outlineColor={Colors.primary}
+        activeOutlineColor={Colors.primary}
+        placeholderTextColor={Colors.primary}
+        theme={{
+          colors: {
+            onSurfaceVariant: Colors.primary, // Removes unfocused label color
+            background: Colors[colorScheme ?? "light"].background, // Ensures full transparency
+          },
+        }}
+      />
 
-<TextInput
-  label="Password"
-  mode="outlined"
-  secureTextEntry
-  value={password}
-  onChangeText={setPassword}
-  style={styles.input}
-  outlineColor={Colors.primary}
-  activeOutlineColor={Colors.primary}
-  placeholderTextColor={Colors.primary}
-  theme={{
-    colors: {
-      onSurfaceVariant: Colors.primary,
-      background: Colors[colorScheme ?? 'light'].background,
-    },
-  }}
-/>
-
+      <TextInput
+        label="Password"
+        mode="outlined"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+        style={styles.input}
+        outlineColor={Colors.primary}
+        activeOutlineColor={Colors.primary}
+        placeholderTextColor={Colors.primary}
+        theme={{
+          colors: {
+            onSurfaceVariant: Colors.primary,
+            background: Colors[colorScheme ?? "light"].background,
+          },
+        }}
+      />
 
       <Button mode="contained" onPress={handleLogin} style={styles.button}>
         Login
@@ -134,5 +132,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-

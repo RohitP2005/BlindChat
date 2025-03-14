@@ -11,16 +11,19 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="chats"
         options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="chatbubbles" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="chatbubbles" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          tabBarIcon: ({ color, size }) => <Ionicons name="search" size={size} color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="search" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>
   );
 }
-

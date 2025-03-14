@@ -6,26 +6,17 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import User
 from .serializers import UserRegistrationSerializer, UserProfileSerializer, PasswordResetSerializer
-from rest_framework import status
-from django.contrib.auth.hashers import make_password
-from datetime import date
 from django.contrib.auth import authenticate
-from django.utils import timezone
-from .models import User
 from django.conf import settings
 from random import randint
 from django.core.mail import send_mail
-from django.contrib.auth.hashers import check_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-from django.contrib.auth import get_user_model
-from django_ratelimit.decorators import ratelimit
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 # from rest_framework.decorators import api_view
 # from ipware import get_client_ip
-import random
 
 
 
@@ -141,7 +132,7 @@ class ProfileView(APIView):
     
 
 
-User = get_user_model()
+# from .models import User  # Remove this line if using get_user_model()
 class PasswordResetRequestView(APIView):
     # @ratelimit(key='ip', rate='3/m', block=True)
     def post(self, request):
