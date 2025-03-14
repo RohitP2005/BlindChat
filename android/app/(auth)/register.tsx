@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import { TextInput, Button, RadioButton } from "react-native-paper";
 import { Colors } from "@/constants/Colors"; // ✅ Use theme colors
 import { useColorScheme } from "@/hooks/useColorScheme";
+import axios from "axios";
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -13,44 +14,75 @@ export default function RegisterScreen() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [gender, setGender] = useState("");
-  const [lookingFor, setLookingFor] = useState("");
+  const [preferences, setPreferences] = useState("");
+  const [dob,setDob] = useState("");
   const [showTerms, setShowTerms] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  async function handleRegister() {
-    if (!email || !password || !confirmPassword || !gender || !lookingFor) {
-      alert("Please fill all fields");
-      return;
-    }
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
+ async function handleRegister() {
+  console.log("Register button clicked"); // Debugging log
 
-    setLoading(true);
-    try {
-      const response = await fetch("https://your-api.com/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, gender, lookingFor }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert(" Check your email for verification.");
-        router.push("/otp-verification");
-      } else {
-        alert(data.message || "Registration failed");
-      }
-    } catch (error) {
-      alert("An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  if (!email || !password || !confirmPassword || !gender || !preferences || !dob) {
+    alert("Please fill all fields");
+    return;
   }
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  // Validate if the user is 18+ years old
+  const birthDate = new Date(dob);
+  const today = new Date();
+  const age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  if (age < 18 || (age === 18 && monthDiff < 0)) {
+    alert("You must be 18 or older to register.");
+    return;
+  }
+
+  setLoading(true);
+  console.log("Loading started");
+
+  try {
+    console.log("Preparing registration request...");
+    
+    const requestData = {
+      email,
+      password,
+      gender,
+      preferences,
+      dob,
+    };
+
+    console.log("Request Data:", requestData); // Log request data before sending
+
+    // Step 1: Send OTP request using Axios
+    const otpResponse = await axios.post("http://172.31.99.84:8000/api/users/register/", requestData);
+    console.log(otpResponse.data); // Log response data
+
+    // Check response status
+    if (otpResponse.status !== 200) {
+      alert(otpResponse.data.message || "Failed to send OTP");
+      return;
+    }
+
+    alert("OTP sent to your email. Please verify.");
+
+    // Navigate to OTP verification page
+    router.push({
+      pathname: "/otp-verification",
+      query: { email, password, confirmPassword, gender, preferences, dob },
+    });
+
+  } catch (error) {
+    alert(error.response?.data?.message || "An error occurred. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+}
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register</Text>
@@ -107,6 +139,22 @@ export default function RegisterScreen() {
   }}
 
       />
+      <TextInput
+        label="Date of Birth (YYYY-MM-DD)"
+        mode="outlined"
+        value={dob}
+        onChangeText={setDob}
+        style={styles.input}
+        outlineColor={Colors.primary}
+        activeOutlineColor={Colors.primary}
+        theme={{
+    colors: {
+      onSurfaceVariant: Colors.primary, // Removes unfocused label color
+      background: Colors[colorScheme ?? 'light'].background, // Ensures full transparency
+    },
+  }}
+
+      />
 
       <Text style={styles.label}>Gender</Text>
       <RadioButton.Group onValueChange={setGender} value={gender}>
@@ -121,7 +169,7 @@ export default function RegisterScreen() {
       </RadioButton.Group>
 
       <Text style={styles.label}>Looking For</Text>
-      <RadioButton.Group onValueChange={setLookingFor} value={lookingFor}>
+      <RadioButton.Group onValueChange={setPreferences} value={preferences}>
         <View style={styles.radioRow}>
           <RadioButton value="Male" color={Colors.primary} />
           <Text>Male</Text>
@@ -156,7 +204,7 @@ export default function RegisterScreen() {
             <Text style={styles.modalText}>
               By registering, you agree to our terms and conditions. Your data will not be shared publicly.
             </Text>
-            <Button mode="contained" onPress={() => setShowTerms(false)} style={styles.modalButton}>
+            <Button mode="contained" onPress={() => handleRegister()} style={styles.modalButton}>
               Close
             </Button>
           </View>

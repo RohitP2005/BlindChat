@@ -93,7 +93,7 @@ class RegisterView(APIView):
             # Send OTP to the email
             send_mail(
                 subject="Your OTP for Registration",
-                message=f"Your OTP for registration is: {otp}",
+                html_message=render_to_string("password_reset_email.html"),
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=[email],
                 fail_silently=False,
