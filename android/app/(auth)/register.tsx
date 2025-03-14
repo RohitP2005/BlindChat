@@ -15,74 +15,85 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [gender, setGender] = useState("");
   const [preferences, setPreferences] = useState("");
-  const [dob,setDob] = useState("");
+  const [dob, setDob] = useState("");
   const [showTerms, setShowTerms] = useState(false);
   const [loading, setLoading] = useState(false);
 
- async function handleRegister() {
-  console.log("Register button clicked"); // Debugging log
+  async function handleRegister() {
+    console.log("Register button clicked"); // Debugging log
 
-  if (!email || !password || !confirmPassword || !gender || !preferences || !dob) {
-    alert("Please fill all fields");
-    return;
-  }
-
-  if (password !== confirmPassword) {
-    alert("Passwords do not match!");
-    return;
-  }
-
-  // Validate if the user is 18+ years old
-  const birthDate = new Date(dob);
-  const today = new Date();
-  const age = today.getFullYear() - birthDate.getFullYear();
-  const monthDiff = today.getMonth() - birthDate.getMonth();
-  if (age < 18 || (age === 18 && monthDiff < 0)) {
-    alert("You must be 18 or older to register.");
-    return;
-  }
-
-  setLoading(true);
-  console.log("Loading started");
-
-  try {
-    console.log("Preparing registration request...");
-    
-    const requestData = {
-      email,
-      password,
-      gender,
-      preferences,
-      dob,
-    };
-
-    console.log("Request Data:", requestData); // Log request data before sending
-
-    // Step 1: Send OTP request using Axios
-    const otpResponse = await axios.post("http://172.31.99.84:8000/api/users/register/", requestData);
-    console.log(otpResponse.data); // Log response data
-
-    // Check response status
-    if (otpResponse.status !== 200) {
-      alert(otpResponse.data.message || "Failed to send OTP");
+    if (
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !gender ||
+      !preferences ||
+      !dob
+    ) {
+      alert("Please fill all fields");
       return;
     }
 
-    alert("OTP sent to your email. Please verify.");
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
 
-    // Navigate to OTP verification page
-    router.push({
-      pathname: "/otp-verification",
-      query: { email, password, confirmPassword, gender, preferences, dob },
-    });
+    // Validate if the user is 18+ years old
+    const birthDate = new Date(dob);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (age < 18 || (age === 18 && monthDiff < 0)) {
+      alert("You must be 18 or older to register.");
+      return;
+    }
 
-  } catch (error) {
-    alert(error.response?.data?.message || "An error occurred. Please try again.");
-  } finally {
-    setLoading(false);
+    setLoading(true);
+    console.log("Loading started");
+
+    try {
+      console.log("Preparing registration request...");
+
+      const requestData = {
+        email,
+        password,
+        gender,
+        preferences,
+        dob,
+      };
+
+      console.log("Request Data:", requestData); // Log request data before sending
+
+      // Step 1: Send OTP request using Axios
+      const otpResponse = await axios.post(
+        "http://172.31.99.84:8000/api/users/register/",
+        requestData,
+      );
+      console.log(otpResponse.data); // Log response data
+
+      // Check response status
+      if (otpResponse.status !== 200) {
+        alert(otpResponse.data.message || "Failed to send OTP");
+        return;
+      }
+
+      alert("OTP sent to your email. Please verify.");
+
+      // Navigate to OTP verification page
+      router.push({
+        pathname: "/otp-verification",
+        query: { email, password, confirmPassword, gender, preferences, dob },
+      });
+    } catch (error) {
+      alert(
+        error.response?.data?.message || "An error occurred. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
   }
-}
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register</Text>
@@ -96,12 +107,11 @@ export default function RegisterScreen() {
         outlineColor={Colors.primary}
         activeOutlineColor={Colors.primary}
         theme={{
-    colors: {
-      onSurfaceVariant: Colors.primary, // Removes unfocused label color
-      background: Colors[colorScheme ?? 'light'].background, // Ensures full transparency
-    },
-  }}
-
+          colors: {
+            onSurfaceVariant: Colors.primary, // Removes unfocused label color
+            background: Colors[colorScheme ?? "light"].background, // Ensures full transparency
+          },
+        }}
       />
 
       <TextInput
@@ -114,12 +124,11 @@ export default function RegisterScreen() {
         outlineColor={Colors.primary}
         activeOutlineColor={Colors.primary}
         theme={{
-    colors: {
-      onSurfaceVariant: Colors.primary, // Removes unfocused label color
-      background: Colors[colorScheme ?? 'light'].background, // Ensures full transparency
-    },
-  }}
-
+          colors: {
+            onSurfaceVariant: Colors.primary, // Removes unfocused label color
+            background: Colors[colorScheme ?? "light"].background, // Ensures full transparency
+          },
+        }}
       />
 
       <TextInput
@@ -132,12 +141,11 @@ export default function RegisterScreen() {
         outlineColor={Colors.primary}
         activeOutlineColor={Colors.primary}
         theme={{
-    colors: {
-      onSurfaceVariant: Colors.primary, // Removes unfocused label color
-      background: Colors[colorScheme ?? 'light'].background, // Ensures full transparency
-    },
-  }}
-
+          colors: {
+            onSurfaceVariant: Colors.primary, // Removes unfocused label color
+            background: Colors[colorScheme ?? "light"].background, // Ensures full transparency
+          },
+        }}
       />
       <TextInput
         label="Date of Birth (YYYY-MM-DD)"
@@ -148,12 +156,11 @@ export default function RegisterScreen() {
         outlineColor={Colors.primary}
         activeOutlineColor={Colors.primary}
         theme={{
-    colors: {
-      onSurfaceVariant: Colors.primary, // Removes unfocused label color
-      background: Colors[colorScheme ?? 'light'].background, // Ensures full transparency
-    },
-  }}
-
+          colors: {
+            onSurfaceVariant: Colors.primary, // Removes unfocused label color
+            background: Colors[colorScheme ?? "light"].background, // Ensures full transparency
+          },
+        }}
       />
 
       <Text style={styles.label}>Gender</Text>
@@ -189,11 +196,14 @@ export default function RegisterScreen() {
       </Button>
 
       <Text style={styles.privacyNote}>
-        This information is gathered for account registration only and will not be exposed to the public.
+        This information is gathered for account registration only and will not
+        be exposed to the public.
       </Text>
 
       <TouchableOpacity onPress={() => router.push("/login")}>
-        <Text style={styles.loginText}>Already have an account? Login here</Text>
+        <Text style={styles.loginText}>
+          Already have an account? Login here
+        </Text>
       </TouchableOpacity>
 
       {/* Terms & Conditions Modal */}
@@ -202,9 +212,14 @@ export default function RegisterScreen() {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Terms & Conditions</Text>
             <Text style={styles.modalText}>
-              By registering, you agree to our terms and conditions. Your data will not be shared publicly.
+              By registering, you agree to our terms and conditions. Your data
+              will not be shared publicly.
             </Text>
-            <Button mode="contained" onPress={() => handleRegister()} style={styles.modalButton}>
+            <Button
+              mode="contained"
+              onPress={() => handleRegister()}
+              style={styles.modalButton}
+            >
               Close
             </Button>
           </View>
@@ -238,13 +253,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: Colors.primary,
     backgroundColor: "transparent",
-
   },
   radioRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    color: Colors.primary
+    color: Colors.primary,
   },
   button: {
     marginTop: 10,
@@ -294,4 +308,3 @@ const styles = StyleSheet.create({
 });
 
 export default RegisterScreen;
-
