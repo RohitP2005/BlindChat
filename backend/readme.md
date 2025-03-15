@@ -1,4 +1,4 @@
-User Registration
+**User Registration**
 
     URL: /api/users/register/
     Method: POST
@@ -8,7 +8,6 @@ User Registration
 {
 "email": "user@example.com",
 "password": "password123",
-"confirm_password": "password123",
 "gender": "Male",
 "preferences": "Chatting, Gaming",
 "dob": "2000-05-15"
@@ -26,7 +25,6 @@ Request Body (OTP Confirmation):
 "email": "user@example.com",
 "otp": "123456",
 "password": "password123",
-"confirm_password": "password123",
 "gender": "Male",
 "preferences": "Chatting, Gaming",
 "dob": "2000-05-15"
@@ -38,7 +36,7 @@ Response (Successful Registration):
         "message": "User registered successfully"
     }
 
-User Login
+**User Login**
 
     URL: /api/users/login/
     Method: POST
@@ -57,7 +55,7 @@ Response:
         "refresh": "your_refresh_token"
     }
 
-User Profile
+**User Profile**
 
     URL: /api/users/profile/
     Method: GET
@@ -74,10 +72,10 @@ Response:
         "gender": "Male",
         "preferences": "Chatting, Gaming",
         "dob": "2000-05-15",
-        "superhero_name": "deadpool"
+        "superhero_name": "deadpool_a23dae5"
     }
 
-Password Reset Request
+**Password Reset Request**
 
     URL: /api/users/reset-password/
     Method: POST
@@ -94,7 +92,7 @@ Response:
         "message": "Password reset link sent to your email"
     }
 
-Password Reset Confirmation
+**Password Reset Confirmation**
 
     URL: /api/users/reset/<uidb64>/<token>/
     Method: POST
@@ -102,8 +100,7 @@ Password Reset Confirmation
     Request Body:
 
 {
-"new_password": "new_password123",
-"confirm_password": "new_password123"
+"new_password": "new_password123"
 }
 
 Response:
@@ -112,7 +109,7 @@ Response:
         "message": "Password reset successful"
     }
 
-Token Refresh
+**Token Refresh**
 
     URL: /api/token/refresh/
     Method: POST
@@ -127,4 +124,19 @@ Response:
 
 {
 "access": "new_access_token"
+}
+
+**User Delete**
+
+    URL: /api/users/delete/
+    Method: DELETE
+
+Headers:
+
+Authorization: Bearer <your_access_token>
+
+Description: Delete's the user's profile.
+Response:
+{
+"message" : "user deleted successfully"
 }
