@@ -32,6 +32,7 @@ class User(AbstractBaseUser):
     gender = models.CharField(max_length=10)
     preferences = models.CharField(max_length=100)
     dob = models.DateField(default="2000-01-01")
+    superhero_name = models.CharField(max_length=50, unique=True, null=True, blank=True)
     otp = models.CharField(max_length=6, null=True, blank=True)
     otp_created_at = models.DateTimeField(null=True, blank=True)
 

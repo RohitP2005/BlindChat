@@ -5,11 +5,9 @@ from django.utils import timezone
 from datetime import timedelta
 from ipware import get_client_ip
 
-# Generate a 6-digit OTP
 def generate_otp():
     return str(random.randint(100000, 999999))
 
-# Send OTP to the user's email
 def send_otp_email(email, otp):
     send_mail(
         subject="Your OTP for Registration",
