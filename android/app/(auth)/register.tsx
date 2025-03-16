@@ -67,7 +67,7 @@ export default function RegisterScreen() {
 
       // Step 1: Send OTP request using Axios
       const otpResponse = await axios.post(
-        "http://172.31.99.84:8000/api/users/register/",
+        "http://192.168.0.105:8000/api/users/register/",
         requestData,
       );
       console.log(otpResponse.data); // Log response data
@@ -83,7 +83,7 @@ export default function RegisterScreen() {
       // Navigate to OTP verification page
       router.push({
         pathname: "/otp-verification",
-        query: { email, password, confirmPassword, gender, preferences, dob },
+        params: { email, password, gender, preferences, dob },
       });
     } catch (error) {
       alert(

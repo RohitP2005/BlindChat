@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import {
   View,
   Text,
@@ -8,12 +8,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { TextInput, Button } from "react-native-paper";
+import axios from "axios";
 import { Colors } from "@/constants/Colors"; // Import theme colors
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function OTPVerification() {
   const router = useRouter();
   const colorScheme = useColorScheme();
+  const params = useLocalSearchParams(); // Capture params from navigation
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendDisabled, setResendDisabled] = useState(false);
@@ -25,39 +27,64 @@ export default function OTPVerification() {
     }
 
     setLoading(true);
+
     try {
-      // Simulated API request
-      const response = await fetch("https://your-api.com/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ otp }),
+      const response = await axios.post("http://192.168.0.105:8000/api/users/register/", {
+        email: params.email,
+        otp,
+        password: params.password,
+        gender: params.gender,
+        preferences: params.preferences,
+        dob: params.dob,
       });
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response.status === 201) {
         alert("OTP Verified! Redirecting...");
         router.replace("/chats"); // Navigate to main chat screen
+      } else if (response.status === 400) {
+        alert(response.data.message || "Invalid OTP. Please try again.");
       } else {
-        alert(data.message || "Invalid OTP. Please try again.");
+        alert("Unexpected error. Please try again.");
       }
     } catch (error) {
-      alert("Network error. Please try again.");
+      if (error.response) {
+        alert(error.response.data.message || "Something went wrong.");
+      } else {
+        alert("Network error. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
-
+  
   async function handleResendOTP() {
     setResendDisabled(true);
+    setTimer(30); // Reset countdown timer
+
     try {
-      await fetch("https://your-api.com/resend-otp", {
-        method: "POST",
+      const response = await axios.post("http://192.168.0.105:8000/api/users/register/", {
+        email: params.email,
       });
-      alert("OTP resent successfully!");
-    } catch {
-      alert("Failed to resend OTP. Try again.");
+
+      if (response.status === 200) {
+        alert("OTP resent successfully!");
+      } else {
+        alert("Failed to resend OTP. Try again.");
+      }
+    } catch (error) {
+      alert("Network error. Unable to resend OTP.");
     }
-    setTimeout(() => setResendDisabled(false), 30 * 1000); // Enable resend after 30 sec
+
+    // Start countdown timer before allowing resend
+    const interval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev === 1) {
+          clearInterval(interval);
+          setResendDisabled(false);
+        }
+        return prev - 1;
+      });
+    }, 1000);
   }
 
   return (
